@@ -21,16 +21,16 @@ public class EFXManagerWindow : EditorWindow
     private float _trailRadius = 2.0f;
     GUIStyle buttonStyle;
 
-    [MenuItem("Escripts/FXManager")]
+    [MenuItem("Escripts/EFXManager")]
     public static void ShowWindow()
     {
-        GetWindow<EFXManagerWindow>("FXManager");
+        GetWindow<EFXManagerWindow>("EFXManager");
     }
 
     private void OnEnable()
     {
         _previewHandler = new EFXPreviewHandler(_backgroundColor, OnPreviewStarted);
-        _headerImage = Resources.Load<Texture2D>("FXManager");
+        _headerImage = Resources.Load<Texture2D>("EFXManager");
         EditorApplication.update += UpdateWindow;
         EditorApplication.update += _previewHandler.UpdatePreview;
         EFXPrefabManagerWindow.OnPrefabsUpdated += UpdatePrefabsList;
@@ -162,9 +162,9 @@ public class EFXManagerWindow : EditorWindow
         {
             EditorGUILayout.HelpBox(
                 "Instructions:\n" +
-                "FX Prefab Manager:\n" +
-                "1. Add prefabs to the manager by dragging and dropping them into the separate FX Prefab Manager window.\n" +
-                "2. The FX Prefab Manager window lists all the added prefabs.\n" +
+                "EFX Prefab Manager:\n" +
+                "1. Add prefabs to the manager by dragging and dropping them into the separate EFX Prefab Manager window.\n" +
+                "2. The EFX Prefab Manager window lists all the added prefabs.\n" +
                 "3. A ScriptableObject holds the list of all prefabs in the assets and will be created at /Assets/.\n" +
                 "    Then you can move it wherever you want.\n" +
                 "\n" +

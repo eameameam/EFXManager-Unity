@@ -12,7 +12,7 @@ public class EFXPrefabManagerWindow : EditorWindow
 
     public static void ShowWindow()
     {
-        GetWindow<EFXPrefabManagerWindow>("FX Prefab Manager");
+        GetWindow<EFXPrefabManagerWindow>("EFX Prefab Manager");
     }
 
     private void OnEnable()
@@ -76,7 +76,7 @@ public class EFXPrefabManagerWindow : EditorWindow
         GUILayout.BeginHorizontal();
         GUILayout.Space(30);
         GUILayout.BeginVertical();
-        GUILayout.Label("FX Prefab Manager", EditorStyles.largeLabel);
+        GUILayout.Label("EFX Prefab Manager", EditorStyles.largeLabel);
         GUILayout.Label("Drag and drop prefabs with Particle Systems here,\nor select them manually. Only prefabs containing\nParticle Systems will be accepted.", EditorStyles.miniLabel);
         GUILayout.EndVertical();
         GUILayout.FlexibleSpace();
