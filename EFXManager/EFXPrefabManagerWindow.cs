@@ -95,6 +95,13 @@ public class EFXPrefabManagerWindow : EditorWindow
             OnPrefabsUpdated?.Invoke(_prefabsList.prefabs);
         }
         GUI.backgroundColor = Color.white;
+
+        if (GUILayout.Button("Collect", GUILayout.Height(40), GUILayout.Width(100)))
+        {
+            CollectPrefabsWithParticleSystems();
+            OnPrefabsUpdated?.Invoke(_prefabsList.prefabs);
+        }
+
         GUILayout.EndVertical();
     }
 
@@ -164,5 +171,22 @@ public class EFXPrefabManagerWindow : EditorWindow
     private bool ContainsParticleSystem(GameObject prefab)
     {
         return prefab.GetComponentInChildren<ParticleSystem>(true) != null;
+    }
+
+    private void CollectPrefabsWithParticleSystems()
+    {
+        string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab");
+        foreach (string guid in prefabGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab != null && ContainsParticleSystem(prefab))
+            {
+                if (!_prefabsList.prefabs.Contains(prefab))
+                {
+                    _prefabsList.prefabs.Add(prefab);
+                }
+            }
+        }
     }
 }
