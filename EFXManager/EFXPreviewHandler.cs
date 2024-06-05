@@ -163,7 +163,17 @@ public class EFXPreviewHandler
                 }
 
                 EditorGUILayout.BeginHorizontal();
-                GUILayout.Label(_selectedPrefabs[index] ? _selectedPrefabs[index].name : "No Prefab", EditorStyles.helpBox, GUILayout.Width(previewSize - 25));
+                bool hasBrokenTextures = HasBrokenTextures(_selectedPrefabs[index]);
+                if (hasBrokenTextures)
+                {
+                    GUI.color = Color.red;
+                    GUILayout.Label(_selectedPrefabs[index] ? _selectedPrefabs[index].name : "No Prefab", EditorStyles.helpBox, GUILayout.Width(previewSize - 25));
+                    GUI.color = Color.white;
+                }
+                else
+                {
+                    GUILayout.Label(_selectedPrefabs[index] ? _selectedPrefabs[index].name : "No Prefab", EditorStyles.helpBox, GUILayout.Width(previewSize - 25));
+                }
                 if (GUILayout.Button("+", EditorStyles.miniButton, GUILayout.Width(20)))
                 {
                     ShowAddMenu(index);
@@ -199,6 +209,24 @@ public class EFXPreviewHandler
 
         HandleMouseInput();
 #endif
+    }
+
+    private bool HasBrokenTextures(GameObject prefab)
+    {
+        ParticleSystemRenderer[] renderers = prefab.GetComponentsInChildren<ParticleSystemRenderer>(true);
+        foreach (ParticleSystemRenderer renderer in renderers)
+        {
+            if (renderer.renderMode == ParticleSystemRenderMode.None)
+            {
+                continue;
+            }
+
+            if (renderer.sharedMaterial == null || renderer.sharedMaterial.name == "Missing (Material)")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void ShowAddMenu(int index)
