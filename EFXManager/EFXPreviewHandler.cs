@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EFXPreviewHandler
 {
@@ -22,6 +23,8 @@ public class EFXPreviewHandler
     private bool _isTrailMode = false;
     private TrailMover _trailMover;
     private System.Action _onPreviewStarted;
+
+    private Dictionary<GameObject, Texture2D> _thumbnailCache = new Dictionary<GameObject, Texture2D>();
 
     public EFXPreviewHandler(Color initialColor, System.Action onPreviewStarted)
     {
@@ -125,9 +128,10 @@ public class EFXPreviewHandler
 
         _selectedPrefabs[index] = prefab;
 
-        if (_previewTextures[index] == null)
+        if (!_thumbnailCache.TryGetValue(prefab, out _previewTextures[index]))
         {
             FXRenderer.CreatePreviewTexture(index, _selectedPrefabs[index], _renderTextures, _previewTextures, _previewCamera, ref _previewInstance, ref _particleSystem);
+            _thumbnailCache[prefab] = _previewTextures[index];
         }
     }
 

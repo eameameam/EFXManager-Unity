@@ -5,6 +5,7 @@ public static class FXRenderer
 {
     public const string PreviewLayerName = "PreviewLayer";
     public static int previewLayer = -1;
+    private static readonly Color DefaultBackgroundColor = new Color(0.05f, 0.05f, 0.05f);
 
     public static void Initialize()
     {
@@ -70,7 +71,7 @@ public static class FXRenderer
             RenderTexture.active = renderTextures[index];
             previewCamera.targetTexture = renderTextures[index];
             previewCamera.clearFlags = CameraClearFlags.SolidColor;
-            previewCamera.backgroundColor = Color.black;
+            previewCamera.backgroundColor = DefaultBackgroundColor;
             previewCamera.Render();
             previewTextures[index] = new Texture2D(renderTextures[index].width, renderTextures[index].height, TextureFormat.RGBA32, false);
             previewTextures[index].ReadPixels(new Rect(0, 0, renderTextures[index].width, renderTextures[index].height), 0, 0);

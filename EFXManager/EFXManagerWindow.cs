@@ -10,7 +10,7 @@ public class EFXManagerWindow : EditorWindow
     private float _previewSize = 150f;
     private Vector2 _scrollPosition;
     private Texture2D _headerImage;
-    private Color _backgroundColor = Color.black;
+    private Color _backgroundColor = new Color(0.1f, 0.1f, 0.1f);
     private bool _showGrid = true;
     private bool _showInstructions = false;
     private bool _showSettings = false;
@@ -51,8 +51,8 @@ public class EFXManagerWindow : EditorWindow
     private void OnGUI()
     {
         DrawBackground();
-        DrawGrid(20, 0.05f, Color.gray);
-        DrawGrid(100, 0.1f, Color.gray);
+        DrawGrid(20, 0.009f, Color.gray);
+        DrawGrid(100, 0.02f, Color.gray);
 
         EditorGUILayout.Space(15);
         if (_headerImage != null)
