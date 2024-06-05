@@ -167,6 +167,7 @@ public class EFXManagerWindow : EditorWindow
                 "2. The EFX Prefab Manager window lists all the added prefabs.\n" +
                 "3. A ScriptableObject holds the list of all prefabs in the assets and will be created at /Assets/.\n" +
                 "    Then you can move it wherever you want.\n" +
+                "4. Use the 'Collect' button to automatically gather all prefabs with Particle Systems in the project.\n" +
                 "\n" +
                 "Preview Settings:\n" +
                 "1. Preview Size slider changes the size of the prefab previews.\n" +
@@ -178,6 +179,15 @@ public class EFXManagerWindow : EditorWindow
                 "1. Left Mouse Button (LMB) on a prefab to play its effect.\n" +
                 "2. Middle Mouse Button (MMB) to rotate the view around the effect.\n" +
                 "3. Scroll Wheel to zoom in and out of the preview area.\n" +
+                "4. 'Trail Mode ON/OFF' button to toggle the trail mode for the preview.\n" +
+                "5. 'Stop Playing' button to stop the current preview effect.\n" +
+                "\n" +
+                "Search:\n" +
+                "1. Use the search bar to filter prefabs by name.\n" +
+                "\n" +
+                "Material Checks:\n" +
+                "1. The system checks for the presence of materials on Particle Systems.\n" +
+                "2. Prefabs with 'Missing (Material)' will be flagged.\n" +
                 "\n" +
                 "Scene Controls:\n" +
                 "1. 'Add to Scene' button adds the prefab to the scene at the origin.\n" +
@@ -189,27 +199,34 @@ public class EFXManagerWindow : EditorWindow
 
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
-        int columns = Mathf.FloorToInt(position.width / _previewSize);
-
-        for (int i = 0; i < _filteredPrefabs?.Count; i += columns)
+        if (_filteredPrefabs.Count == 0)
         {
-            EditorGUILayout.BeginHorizontal();
-            for (int j = 0; j < columns; j++)
-            {
-                int index = i + j;
-                if (index < _filteredPrefabs.Count)
-                {
-                    _previewHandler.SetPrefab(index, _filteredPrefabs[index]);
-                }
-                else
-                {
-                    break;
-                }
-            }
-            EditorGUILayout.EndHorizontal();
+            GUILayout.Label("No prefabs found matching the search criteria.", EditorStyles.centeredGreyMiniLabel);
         }
+        else
+        {
+            int columns = Mathf.FloorToInt(position.width / _previewSize);
 
-        _previewHandler.OnGUI(_previewSize);
+            for (int i = 0; i < _filteredPrefabs?.Count; i += columns)
+            {
+                EditorGUILayout.BeginHorizontal();
+                for (int j = 0; j < columns; j++)
+                {
+                    int index = i + j;
+                    if (index < _filteredPrefabs.Count)
+                    {
+                        _previewHandler.SetPrefab(index, _filteredPrefabs[index]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+
+            _previewHandler.OnGUI(_previewSize);
+        }
         EditorGUILayout.EndScrollView();
 
         EditorGUILayout.EndVertical();
